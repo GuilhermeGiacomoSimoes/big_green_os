@@ -1,3 +1,6 @@
+; MASTER BOOT RECORD
+; the first thing to notice is that we are going to switch between 16 bit real mode and 32 bit protected mode so we need to tell the assembler theter it should generate 16bit or 32bit instructions. This can be done by using
+; the [bits 16] and [bits32 ] directives, respectively. We are starting off with 16 bit instructions as the BIOS jumps to the boot loader while the CPI is still in 16 bit mode.
 [bits 16]
 [org 0x7c00]
 
