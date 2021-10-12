@@ -1,3 +1,10 @@
 BOOTLOADER 
 ====================
 
+The bootload is basically divided into the following parts:
+
+* `mbr.asm`  is the main file defining the master boot record ( 512 bytes boot sector )
+* `disk.asm` constains code to read from disk using BIOS 
+* `gdt.asm`  sets up the GDT
+* `switch-to-32bit.asm` contains code to switch to 32 bit protected mode
+
