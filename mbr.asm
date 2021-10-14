@@ -19,7 +19,7 @@
 ; where to load the kernel to
 KERNEL_OFFSET equ 0x1000
 
-; BIOS sets boot drive in 'dl';store for later use
+; BIOS sets boot drive in 'dl' estore for later use
 mov [BOOT_DRIVE], dl
 
 ; setup stack
