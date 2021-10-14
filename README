@@ -13,4 +13,4 @@ The bootload is basically divided into the following parts:
 this bootloader will have to perform the following tasks:
 1 - Loading the kernel from disk into memory.
 2 - Setting up the global descriptor table (GDT)
-3 -  Switching from 16bits real mode to 32 bits protected mode and passing control to the kernel.
+3 - Switching from 16bits real mode to 32 bits protected mode and passing control to the kernel.
