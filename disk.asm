@@ -1,4 +1,5 @@
 disk_load:
+	; send all general purpose register (ax, bx, cx, dx) to stack using pusha
 	pusha
 	push dx
 
