@@ -18,7 +18,7 @@ disk_load:
 	; if it happens disk errors the BIOS sets carry = 1
 	jc disk_error ; check carry = 1 bit for error
 	 
-	pop dx        ; get back original number of sextors to read
+	pop dx        ; get back original number of sectors to read
 	cmp al, dh    ; BIOS sets 'al' to the # of sectors actually read
 	              ; compare ir to 'dh' and error out if they are != 
 
