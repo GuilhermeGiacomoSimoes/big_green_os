@@ -15,7 +15,7 @@ disk_load:
 
 	int 0x13      ; BIOS interrupt
 
-	; if it happens disk errors the BIOS sets cary = 1
+	; if it happens disk errors the BIOS sets carry = 1
 	jc disk_error ; check carry = 1 bit for error
 	 
 	pop dx        ; get back original number of sextors to read
