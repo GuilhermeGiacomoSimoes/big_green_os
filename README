@@ -18,22 +18,16 @@ this bootloader will have to perform the following tasks:
 
 DESCRIPTION ===========================
 `mbr.asm`
-    Master boot record is responsable for initially setting 16-bits instructions and to position in address memory 0x7c00 
-why its at this address that stored first sectors boot drive.
-    KERNEL_OFFSET guard a value (0x1000). This offset is important in the future for load operation system in start memmory
-+ offset.
-    Stored the value of dl (which contains boot drive information) in BOOT_DRIVE only use register dl in future for othhers
-things.
-    After we call load_kernel, setters of the parameters... bx received KERNEL_OFFSET, dh received 2 (number of sectors), 
-dl received BOOT_DRIVE and call disk_load.
+    Master boot record is responsable for initially setting 16-bits instructions and to position in address memory 0x7c00 why its at this address that stored first sectors boot drive.
+    KERNEL_OFFSET guard a value (0x1000). This offset is important in the future for load operation system in start memmory + offset.
+    Stored the value of dl (which contains boot drive information) in BOOT_DRIVE only use register dl in future for othhers things.
+    After we call load_kernel, setters of the parameters... bx received KERNEL_OFFSET, dh received 2 (number of sectors), dl received BOOT_DRIVE and call disk_load.
 
 
 `disk.asm`
-    disk.asm is responsable for stack up all general purpose reister (ax, bx, cx, dx) and setter ah = 0x02 to change to read mode,
-stored dh (number of sectors) in al, movie value 0x02 to register cl and sette 0x00 in ch and dh. 
+    disk.asm is responsable for stack up all general purpose reister (ax, bx, cx, dx) and setter ah = 0x02 to change to read mode, stored dh (number of sectors) in al, movie value 0x02 to register cl and sette 0x00 in ch and dh. 
     In 0x13 have a BIOS interrupt from read OS. 
-	How are we work in 16-bits not protected then we achieved to throw BIOS interrupt. Otherwise we would have to talk 
-directly to the input and output devices.
+	How are we work in 16-bits not protected then we achieved to throw BIOS interrupt. Otherwise we would have to talk directly to the input and output devices.
 	If 0x13 return error, carry = 1. 
 	Jumper Carry call disk_error that goes into an infinite loop.
 	After unstacks registers, and compare al and dh, case is not equal call sectors_error that goes into an infinite loop.
