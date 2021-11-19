@@ -23,7 +23,7 @@ disk_load:
 	              ; compare ir to 'dh' and error out if they are != 
 
 	jne sectors_error
-	; if(al != dh){ dextors_error() }
+	; if(al != dh){ sectors_error() }
 	popa
 	ret
 
