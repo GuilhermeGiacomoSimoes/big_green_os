@@ -1,18 +1,3 @@
-; MASTER BOOT RECORD
-; the first thing to notice is that we are going to switch between 16 bit real mode and 32 bit protected mode so we need to tell the assembler theter it should generate 16bit or 32bit instructions. This can be done by using
-; the [bits 16] and [bits32 ] directives, respectively. We are starting off with 16 bit instructions as the BIOS jumps to the boot loader while the CPI is still in 16 bit mode.
-; 
-; In NASM, the [org 0x7c00] directive sets the assembler location counter. We specify the memory address where the BIOS is placing the boot loader. This is important when using labels as they will have to be translated 
-; to memory addresses when we generate machine code and those addresses need to have the correct offset.
-; 
-; Preceding the boot loader invocation, the BIOS stores the selected boot drive in the dl register. We are storing this information in memory inside the BOOT_DRIVE variable so we can use the dl register for something 
-; else without the risk of overwriting this information
-;
-; Before we can call the kernel loading procedure, we need to setup the stack by setting the stack pointer registers sp (top of stack, grows downwards) and bp (bottom of stack). We will place the bottom of the stack 
-; in 0x9000 to make sure we are far away enough from our other boot loader related memory to avoid collisions. The stack will be used, e.g., by the call and ret statements to keep track of memory addresses when 
-; executing assembly procedures.
-
-
 [bits 16]
 [org 0x7c00]
 
