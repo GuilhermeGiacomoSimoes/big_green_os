@@ -5,7 +5,7 @@ switch_to_32bit:
 	mov eax, cr0
 	or eax, 0x1           ; 3. enable protected mode 
 	mov cr0, eax
-	jpm CODE_SEG:init_32bit ; 4. far jump
+	jmp CODE_SEG:init_32bit ; 4. far jump
 
 [bits 32]
 init_32bit:
