@@ -24,6 +24,7 @@ gdt_data:
 	db 11001111b  ; flags (4 bits) + segment length, bits 16-19
 	db 0x0        ; segment base, bits 24-31
 
+gdt_end:
 
 ; GDT descriptor
 gdt_descriptor:

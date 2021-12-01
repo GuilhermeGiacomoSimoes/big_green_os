@@ -28,10 +28,10 @@ disk_load:
 	ret
 
 disk_error:
-	jpm disk_loop
+	jmp disk_loop
 
 sectors_error:
-	jpm disk_loop
+	jmp disk_loop
 
 disk_loop:
 	jmp $
