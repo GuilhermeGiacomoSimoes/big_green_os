@@ -7,7 +7,7 @@ gdt_start:
 
 ; code segment descriptor
 gdt_code:
-	dw 0xfffff     ; segment length, bits 0-15
+	dw 0xffff     ; segment length, bits 0-15
 	dw 0x0        ; segment base, bits 0-15
 	db 0x0        ; segment base, bits 16-23
 	db 10011010b  ; flags (8 bits)
