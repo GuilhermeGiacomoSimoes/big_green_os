@@ -1,10 +1,15 @@
+; Set the non protected mode ... 16 bits
 [bits 16]
+
+; The bootloader must be  at address 0x7c00
 [org 0x7c00]
 
-; where to load the kernel to
+; OFFSET to load kernel ...  
+; when we go initialize kernel, we will load he in address 0x10000
 KERNEL_OFFSET equ 0x1000
 
-; BIOS sets boot drive in 'dl' estore for later use
+; Before the bootloader invocation, BIOS storage the selected drive of initialization
+; in register dl
 mov [BOOT_DRIVE], dl
 
 ; setup stack
@@ -33,11 +38,8 @@ BEGIN_32BIT:
 	call KERNEL_OFFSET ; give control to the kernel
 	jmp $ ; loop in case kernel returns
 
-; boot drive variable
 BOOT_DRIVE db 0
 
-; padding
 times 510 - ($-$$) db 0
 
-; magic number
 dw 0xaa55
