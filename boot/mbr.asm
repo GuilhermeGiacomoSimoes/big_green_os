@@ -1,7 +1,7 @@
 ; Set the non protected mode ... 16 bits
 [bits 16]
 
-; The bootloader must be  at address 0x7c00
+; The bootloader must be at address 0x7c00
 ; Here, then, we set the assembler location counter in 0x7c00
 [org 0x7c00]
 
