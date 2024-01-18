@@ -1,11 +1,25 @@
+/*
+this VGA_CTRL_REGISTER constant is for change and read the 
+cursor position on screen
+*/
 #define VGA_CTRL_REGISTER 0x3d4
+
+/*
+this VGA_DATA_REGISTER constant is for write and read 
+the data on screen
+*/
 #define VGA_DATA_REGISTER 0x3d5
+
 #define VGA_OFFSET_LOW 0x0f
 #define VGA_OFFSET_HIGH 0x0e
 
+// this address is address that the video memory start
 #define VIDEO_ADDRESS 0xb8000
+
 #define MAX_ROWS 25
 #define MAX_COLS 80
+
+//cursor color
 #define WHITE_ON_BLACK 0x0f
 
 unsigned char port_byte_in(unsigned short port)
