@@ -1,3 +1,5 @@
+#include "../lib/memory.h"
+
 /*
 this VGA_CTRL_REGISTER constant is for change and read the 
 cursor position on screen
@@ -24,9 +26,9 @@ the data on screen
 
 unsigned char port_byte_in(unsigned short port)
 {
-	unsigned char result;
-	__asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
-	return result;
+    unsigned char result;
+    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
+    return result;
 }
 
 void port_byte_out(unsigned short port, unsigned char data)
@@ -45,11 +47,11 @@ void set_cursor(int offset)
 
 int get_cursor()
 {
-	port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-	int offset = port_byte_in(VGA_DATA_REGISTER) << 8;
-	port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-	offset += port_byte_in(VGA_DATA_REGISTER);
-	return offset * 2;
+    port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
+    int offset = port_byte_in(VGA_DATA_REGISTER) << 8;
+    port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
+    offset += port_byte_in(VGA_DATA_REGISTER);
+    return offset * 2;
 }
 
 void set_char_at_video_memory(char character, int offset)
@@ -74,16 +76,9 @@ int move_offset_to_new_line(int offset)
 	return get_offset(0, get_row_from_offset(offset) + 1);
 }
 
-void memory_copy(char* source, char*dest, int nbytes)
-{
-	int i;
-	for(i = 0; i < nbytes; i++)
-		*(dest + i) = *(source + i);
-}
-
 int scroll_ln(int offset)
 {
-	memory_copy(
+	memcpy(
 			(char *) (get_offset(0, 1) + VIDEO_ADDRESS),
 			(char *) (get_offset(0, 0) + VIDEO_ADDRESS),
 			MAX_COLS * (MAX_ROWS - 1) * 2
@@ -113,8 +108,8 @@ void print_string(char *str)
 		if(str[i] == '\n') 
 			offset = move_offset_to_new_line(offset);
 		else {
-			offset += 2;
 			set_char_at_video_memory(str[i], offset);
+			offset += 2;
 		}
 	}
 
