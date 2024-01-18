@@ -95,6 +95,15 @@ int scroll_ln(int offset)
 	return offset - 2 * MAX_COLS;
 }
 
+
+void clear_screen() 
+{
+	for(int i = 0; i < MAX_COLS * MAX_ROWS; ++i)
+		set_char_at_video_memory(' ', i * 2);
+
+	set_cursor(get_offset(0, 0));
+}
+
 void print_string(char *str)
 {
 	int offset = get_cursor();
