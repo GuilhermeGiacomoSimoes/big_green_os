@@ -74,10 +74,33 @@ int move_offset_to_new_line(int offset)
 	return get_offset(0, get_row_from_offset(offset) + 1);
 }
 
+void memory_copy(char* source, char*dest, int nbytes)
+{
+	int i;
+	for(i = 0; i < nbytes; i++)
+		*(dest + i) = *(source + i);
+}
+
+int scroll_ln(int offset)
+{
+	memory_copy(
+			(char *) (get_offset(0, 1) + VIDEO_ADDRESS),
+			(char *) (get_offset(0, 0) + VIDEO_ADDRESS),
+			MAX_COLS * (MAX_ROWS - 1) * 2
+		);
+
+	for(int col = 0; col < MAX_COLS; col++) 
+		set_char_at_video_memory(' ', get_offset(col, MAX_ROWS - 1));
+
+	return offset - 2 * MAX_COLS;
+}
+
 void print_string(char *str)
 {
 	int offset = get_cursor();
 	for(int i =0; str[i] != 0; i++) {
+		if(offset >= MAX_ROWS * MAX_COLS * 2) 
+			offset = scroll_ln(offset);
 		if(str[i] == '\n') 
 			offset = move_offset_to_new_line(offset);
 		else {
@@ -87,11 +110,4 @@ void print_string(char *str)
 	}
 
 	set_cursor(offset);
-}
-
-void memory_copy(char* source, char*dest, int nbytes)
-{
-	int i;
-	for(i = 0; i < nbytes; i++)
-		*(dest + i) = *(source + i);
 }
