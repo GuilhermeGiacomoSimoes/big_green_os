@@ -1,16 +1,13 @@
 all: run
 
-vga.o: drivers/vga.c
-	clang -fno-pie -m32 -ffreestanding -c $< -o $@
-
 kernel.bin: kernel-entry.o kernel.o
 	ld -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
 kernel-entry.o: boot/kernel-entry.asm
 	nasm $< -f elf -o $@
 
-kernel.o: vga.o kernel.c
-	clang -fno-pie -m32 -ffreestanding -c $< -o $@
+kernel.o: 
+	clang -fno-pie -m32 -ffreestanding -c *.c -o $@
 
 mbr.bin: boot/mbr.asm
 	nasm $< -f bin -o $@
