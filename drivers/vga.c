@@ -1,3 +1,4 @@
+#include "vga.h"
 #include "../lib/memory.h"
 
 /*
