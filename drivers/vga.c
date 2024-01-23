@@ -79,10 +79,10 @@ int move_offset_to_new_line(int offset)
 
 int scroll_ln(int offset)
 {
-	memcpy(
+	k_memcpy(
 			(char *) (get_offset(0, 1) + VIDEO_ADDRESS),
 			(char *) (get_offset(0, 0) + VIDEO_ADDRESS),
-			MAX_COLS * (MAX_ROWS - 1) * 2
+			(int) MAX_COLS * (MAX_ROWS - 1) * 2
 		);
 
 	for(int col = 0; col < MAX_COLS; col++) 
@@ -116,3 +116,4 @@ void print_string(char *str)
 
 	set_cursor(offset);
 }
+
