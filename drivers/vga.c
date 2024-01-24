@@ -1,17 +1,12 @@
 #include "vga.h"
 #include "../lib/memory.h"
 
-/*
-this VGA_CTRL_REGISTER constant is for change and read the 
-cursor position on screen
-*/
-#define VGA_CTRL_REGISTER 0x3d4
+//This register contains a value of offset cursor
+#define VGA_OFFSET_REGISTER 0x3c4
 
-/*
-this VGA_DATA_REGISTER constant is for write and read 
-the data on screen
-*/
-#define VGA_DATA_REGISTER 0x3d5
+//This register contains a data value of 
+//current address cursor
+#define VGA_DATA_REGISTER 0x3c5
 
 #define VGA_OFFSET_LOW 0x0f
 #define VGA_OFFSET_HIGH 0x0e
@@ -40,22 +35,17 @@ static void port_byte_out(unsigned short port, unsigned char data)
 static void set_cursor(int offset)
 {
 	offset /= 2;
-	port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-	port_byte_out(VGA_DATA_REGISTER, (unsigned char) (offset >> 8));
-	port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-	port_byte_out(VGA_DATA_REGISTER, (unsigned char) (offset & 0xff));
+	port_byte_out(VGA_OFFSET_REGISTER, (unsigned char) (offset));
 }
 
 static int get_cursor()
 {
-    port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_HIGH);
-    int offset = port_byte_in(VGA_DATA_REGISTER) << 8;
-    port_byte_out(VGA_CTRL_REGISTER, VGA_OFFSET_LOW);
-    offset += port_byte_in(VGA_DATA_REGISTER);
+    int offset = port_byte_in(VGA_OFFSET_REGISTER);
     return offset * 2;
 }
 
-static void set_char_at_video_memory(char character, int offset)
+static void set_char_at_video_memory(
+		const char character, const int offset)
 {
 	unsigned char *vidmem = (unsigned char *) VIDEO_ADDRESS;
 	vidmem[offset] = character;
