@@ -3,5 +3,7 @@
 void k_main (void) 
 {
 	clear_screen();
-	print_string("hello world\n");
+
+	char str[] = {'h', 'e', 'l', 'l', 'o'};
+	print_string(str);
 }
