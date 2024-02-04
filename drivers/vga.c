@@ -43,18 +43,6 @@
 //cursor color
 #define WHITE_ON_BLACK 0x0f
 
-static unsigned char port_byte_in(unsigned short port)
-{
-    unsigned char result;
-    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
-    return result;
-}
-
-static void port_byte_out(unsigned short port, unsigned char data)
-{
-	__asm__("out %%al, %%dx" : : "a" (data), "d" (port));
-}
-
 static void set_cursor(int offset)
 {
 	offset /= 2;
