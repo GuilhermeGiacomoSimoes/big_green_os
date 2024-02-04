@@ -1,11 +1,21 @@
 #include <stdint.h>
 #include "vga.h"
+#include "helper.h"
+#include "keyboard.h"
+
+#define IDT_ENTRIES 256;
 
 #define low_16(address) (uint16_t) \
 	((address) & 0xFFFF)
 
 #define high_16(address) (uint16_t) \
 	(((address) >> 16) & 0xFFFF)
+
+typedef struct {
+	uint16_t limit;
+	uint32_t base;
+} __attribute__((packed)) idt_register_t;
+
 
 typedef struct {
 	uint16_t low_offset;
