@@ -84,12 +84,13 @@ typedef struct {
 	uint32_t eip, cs, eflags, useresp, ss;
 } registers_t;
 
+
 void isr_handler(registers_t *r)
 {
 	print_string(exception_messages[r->int_no]);
 }
 
-void insr_install()
+void isr_install()
 {
 	set_idt_gate(0, (uint32_t) isr0);
 	set_idt_gate(1, (uint32_t) isr1);
