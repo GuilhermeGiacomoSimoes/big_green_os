@@ -10,6 +10,7 @@ kernel.o:
 	i386-elf-gcc -fno-pie -nostdlib -ffreestanding -m32 -c kernel/kernel.c -o kernelkernel.o 
 	i386-elf-gcc -fno-pie -nostdlib -ffreestanding -m32 -c drivers/vga.c -o vga.o 
 	i386-elf-gcc -fno-pie -nostdlib -ffreestanding -m32 -c lib/memory.c -o memory.o 
+	i386-elf-gcc -fno-pie -nostdlib -ffreestanding -m32 -c drivers/keyboard.c -o memory.o 
 	i386-elf-gcc -fno-pie -nostdlib -ffreestanding -m32 -o $@ kernelkernel.o vga.o memory.o 
 
 mbr.bin: boot/mbr.asm
