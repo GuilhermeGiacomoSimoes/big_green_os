@@ -224,7 +224,7 @@ void isr_install()
 	load_idt();
 }
 
-typedef void (*isr_t)(register_t *);
+typedef void (*isr_t)(registers_t *);
 isr_t interrupt_handlers[256];
 
 void irq_handler(registers_t *r)
