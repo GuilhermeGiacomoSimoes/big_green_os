@@ -16,6 +16,7 @@
 
 #include "vga.h"
 #include "../lib/memory.h"
+#include "helper.h"
 
 //This register contains a value of offset cursor
 #define VGA_OFFSET_REGISTER 0x3c4
