@@ -5,7 +5,7 @@ isr_common_stub:
 	pusha
 	mov ax, ds
 	push eax
-	mov ax 0x10
+	mov ax, 0x10
 	mov ds, ax
 	mov es, ax
 	mov fs, ax
