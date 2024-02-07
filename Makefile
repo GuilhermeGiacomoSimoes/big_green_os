@@ -1,33 +1,41 @@
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c boot/*.c lib/*.c memory/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h boot/*.h lib/*.h memory/*.h)
+OBJ_FILES = ${C_SOURCES:.c=.o drivers/interrupts.o}
+
 CC ?= x86_64-elf-gcc
 LD ?= x86_64-elf-ld
 
 all: run
 
-kernel.bin: kernel-entry.o interrupts.o kernel.o
+kernel.bin: boot/kernel-entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
-kernel-entry.o: boot/kernel-entry.asm
-	nasm $< -f elf -o $@
-
-interrupts.o: drivers/interrupts.asm
-	nasm $< -f elf -o $@
-
-kernel.o:  
-	$(CC) -fno-pie -nostdlib -ffreestanding -fno-stack-protector -m32 -c kernel/kernel.c -o kernelkernel.o 
-	$(CC) -fno-pie -nostdlib -ffreestanding -fno-stack-protector -m32 -c drivers/vga.c -o vga.o 
-	$(CC) -fno-pie -nostdlib -ffreestanding -fno-stack-protector -m32 -c lib/memory.c -o memory.o 
-	$(CC) -fno-pie -nostdlib -ffreestanding -fno-stack-protector -m32 -c drivers/keyboard.c -o keyboard.o 
-	nasm drivers/interrupts.asm -f elf -o interrupts.o
-	$(CC) -fno-pie -nostdlib -ffreestanding -fno-stack-protector -m32 -o $@ interrupts.o kernelkernel.o vga.o memory.o keyboard.o
-
-mbr.bin: boot/mbr.asm
-	nasm $< -f bin -o $@
-
-os-image.bin: mbr.bin kernel.bin
+os-image.bin: boot/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
 	qemu-system-i386 -fda $<
 
+echo: os-image.bin
+	xxd $<
+
+%.o: %.c ${HEADERS}
+	$(CC) -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@
+
+%.o: %.asm
+	nasm $< -f elf -o $@
+
+%.bin: %.asm
+	nasm $< -f bin -o $@
+
+%.dis: %.bin
+	ndisasm -b 32 $< > $@
+
 clean:
-	$(RM) *.bin *.o *.dis
+	$(RM) *.bin *.o *.dis *.elf
+	$(RM) kernel/*.o
+	$(RM) boot/*.o boot/*.bin
+	$(RM) drivers/*.o
+	$(RM) lib/*.o
+	$(RM) client/*.o
+	$(RM) memory/*.o
