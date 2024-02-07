@@ -438,6 +438,11 @@ static void keyboard_callback(registers_t *regs)
 }
 
 #define IRQ1 33
+void register_interrupt_handler(uint8_t n, isr_t handler)
+{
+	interrupt_handlers[n] = handler;
+}
+
 void init_keyboard()
 {
 	register_interrupt_handler(IRQ1, keyboard_callback);
