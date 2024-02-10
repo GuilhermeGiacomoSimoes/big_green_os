@@ -92,9 +92,29 @@ void load_idt()
 void set_idt_gate(int n, uint32_t handler)
 {
 	idt[n].low_offset = low_16(handler);
+
+ 	///kernel address
 	idt[n].selector = 0x08;
+
+	///some bits that always need to 
+	///be set to 0 for interrupt gates
 	idt[n].always0 = 0;
+
+
+	///This flags is a concatenation os multiples fields of gate.
+	/// [1] 1 bit to indicating whether the gate is active. Will be set to 1
+	/// [00] 2 bits the descriptor privilege level indicates what privilege
+	/// is required to invoke the handler. Will be set to 00
+	/// [0] the bit that always 0
+	/// [1] 1 bit indicating whether the code segment is 32bit. Will be set 
+	/// to 1
+	/// [110] 3 bits indicating the gate type. Will e set to 110 as we are 
+	/// defining an interrupt gate.
+	/// 
+	///and 10001110 = 0x8e
 	idt[n].flags = 0x8e;
+
+
 	idt[n].high_offset = high_16(handler);
 }
 

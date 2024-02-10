@@ -284,12 +284,14 @@ global irq13
 global irq14
 global irq15
 
-; IRQ handlers
 irq0:
 	push byte 0
 	push byte 32
 	jmp irq_common_stub
 
+;;;
+;;;the keyboard PS/2 IRQ ...
+;;;
 irq1:
 	push byte 1
 	push byte 33
