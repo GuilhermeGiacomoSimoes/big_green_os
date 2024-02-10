@@ -160,7 +160,7 @@ void isr_handler(registers_t *r)
 	print_string(exception_messages[r->int_no]);
 }
 
-void isr_install()
+void load_isr(void)
 {
 	set_idt_gate(0, (uint32_t) isr0);
 	set_idt_gate(1, (uint32_t) isr1);
@@ -194,12 +194,10 @@ void isr_install()
 	set_idt_gate(29, (uint32_t) isr29);
 	set_idt_gate(30, (uint32_t) isr30);
 	set_idt_gate(31, (uint32_t) isr31);
+}
 
-
-	///
-	/// PIC REMAPPING
-	///
-	
+void remapping_pic(void)
+{
 	/// ICW1
 	/// the 0x11 is a initialize command.
 	/// We must send this 0x11 for the both PICs.
@@ -236,8 +234,10 @@ void isr_install()
 	/// to enable all IRQs. 
 	port_byte_out(0x21, 0x0);
 	port_byte_out(0xA1, 0x0);
+}
 
-
+void load_irq(void)
+{
 	set_idt_gate(32, (uint32_t) irq0);
 	set_idt_gate(33, (uint32_t) irq1);
 	set_idt_gate(34, (uint32_t) irq2);
@@ -255,6 +255,13 @@ void isr_install()
 	set_idt_gate(46, (uint32_t) irq14);
 	set_idt_gate(47, (uint32_t) irq15);
 
+}
+
+void isr_install()
+{
+	load_isr();
+	remapping_pic();
+	load_irq();
 	load_idt();
 }
 
