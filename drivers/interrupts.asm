@@ -293,7 +293,10 @@ global irq14
 global irq15
 
 irq0:
+	;;; IRQ number
 	push byte 0
+	
+	;;; interrupt number
 	push byte 32
 	jmp irq_common_stub
 

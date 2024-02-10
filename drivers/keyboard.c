@@ -203,23 +203,40 @@ void isr_install()
 	/// PIC REMAPPING
 	///
 	
-	// ICW1
+	/// ICW1
+	/// the 0x11 is a initialize command.
+	/// We must send this 0x11 for the both PICs.
+	/// After command initialize (0x11) the PICs
+	/// then wait for the following three inputs
+	/// on the data ports (0x21 for the first PIC
+	/// and 0xA1 for the secondary PIC)
 	port_byte_out(0x20, 0x11);
 	port_byte_out(0xA0, 0x11);
 	
-	// ICW2
+	/// ICW2
+	/// first command will be set to 0x20 (32) for the
+	/// primary PIC and 0x28 (40) for the secondary PIC
 	port_byte_out(0x21, 0x20);
 	port_byte_out(0xA1, 0x28);
 	
-	// ICW3
+	/// ICW3
+	/// This is a wiring between PICs.
+	/// We will tell the primary PIC to accept
+	/// IRQs from the secondary PIC on IRQ1 (0x04)
+	///
+	/// The secondary PIC will be marked as secondary
+	/// by setting 0x02
 	port_byte_out(0x21, 0x04);
 	port_byte_out(0xA1, 0x02);
 	
-	// ICW4
+	/// ICW4
+	/// we set 0x01 in order to enable the 8086 mode
 	port_byte_out(0x21, 0x01);
 	port_byte_out(0xA1, 0x01);
 	
-	// OCW1
+	/// OCW1
+	/// We finally send the first operation command word 0x00
+	/// to enable all IRQs. 
 	port_byte_out(0x21, 0x0);
 	port_byte_out(0xA1, 0x0);
 
@@ -254,6 +271,13 @@ void irq_handler(registers_t *r)
 		handler(r);
 	}
 
+	///end of interrupts
+	///the primary is a 0-7
+	///and the secondary 8-15
+	///
+	///this is required for the PIC to know that 
+	///the interrupt is handled and it can send
+	///further interrupts.
 	port_byte_out(0x20, 0x20); // primary EOI
 	if(r->int_no < 40) {
 		port_byte_out(0xA0, 0x20); //secondary EOI
