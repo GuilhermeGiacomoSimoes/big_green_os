@@ -288,6 +288,10 @@ void irq_handler(registers_t *r)
 	}
 }
 
+///This map of code -> letter is a specific keyboard..
+///IBM PC PS/2
+///
+///Each keyboard has your map
 void print_letter(uint8_t scancode)
 {
 	switch(scancode) {
@@ -485,12 +489,12 @@ static void keyboard_callback(registers_t *regs)
 	print_letter(scancode);
 }
 
-#define IRQ1 33
 void register_interrupt_handler(uint8_t n, isr_t handler)
 {
 	interrupt_handlers[n] = handler;
 }
 
+#define IRQ1 33
 void init_keyboard()
 {
 	register_interrupt_handler(IRQ1, keyboard_callback);
