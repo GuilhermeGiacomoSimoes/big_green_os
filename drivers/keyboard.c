@@ -56,8 +56,6 @@ extern void isr29();
 extern void isr30();
 extern void isr31();
 
-#define IDT_ENTRIES 256;
-
 #define low_16(address) (uint16_t) \
 	((address) & 0xFFFF)
 
@@ -68,7 +66,6 @@ typedef struct {
 	uint16_t limit;
 	uint32_t base;
 } __attribute__((packed)) idt_register_t;
-
 
 typedef struct {
 	uint16_t low_offset;
@@ -83,7 +80,7 @@ idt_register_t idt_reg;
 void load_idt() 
 {
 	idt_reg.base = (uint32_t) &idt;
-	const int idt_entries = IDT_ENTRIES;
+	const int idt_entries = 256;
 	const int size_idt_gate = sizeof(idt_gate_t);
 	idt_reg.limit = idt_entries * size_idt_gate - 1;
 	asm volatile("lidt (%0)" : : "r" (&idt_reg));
