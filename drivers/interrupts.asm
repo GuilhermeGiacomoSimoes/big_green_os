@@ -83,8 +83,16 @@ global isr31
 
 ;0: Divide by zero exception
 isr0:
+	;;;int_no
 	push byte 0
+
+	;;;err_code
 	push byte 0
+
+	;;; the int_no and err_code is sending to 
+	;;; to stack, and in the C code, we get 
+	;;; this values
+
 	jmp isr_common_stub 
 
 ;1: debug exception
