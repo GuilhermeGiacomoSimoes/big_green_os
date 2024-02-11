@@ -254,7 +254,6 @@ void load_irq(void)
 	set_idt_gate(45, (uint32_t) irq13);
 	set_idt_gate(46, (uint32_t) irq14);
 	set_idt_gate(47, (uint32_t) irq15);
-
 }
 
 void isr_install()
