@@ -7,6 +7,7 @@
 #include "helper.h"
 #include "keyboard.h"
 #include "../lib/string.h"
+#include "../client/shell.h"
 
 extern void irq0();
 extern void irq1();
@@ -307,6 +308,7 @@ bool backspace(char buff[])
 
 #define SC_MAX 57
 #define BACKSPACE 0x0e
+#define ENTER 0x1c
 
 static char key_buff[256];
 const char scancode2char[] = {
@@ -325,15 +327,19 @@ static void keyboard_callback(registers_t *regs)
 	const uint8_t scancode = port_byte_in(0x60);
 	if(scancode > SC_MAX) return;
 
-	if(scancode == BACKSPACE)
+	if(scancode == BACKSPACE) {
 		if(backspace(key_buff)) 
 			print_backspace();
-
-	const char letter = scancode2char[(int) scancode];
-	append(key_buff, letter);
-
-	char str[2] = {letter, '\0'};
-	print_string(str);
+	} else if (scancode == ENTER) {
+		///print_nl();
+		execute_command(key_buff);
+		key_buff[0] = '\0';
+	} else {
+		char letter = scancode2char[(int) scancode];
+		append(key_buff, letter);
+		char str[2] = {letter, '\0'};
+		print_string(str);
+	}
 }
 
 void register_interrupt_handler(uint8_t n, isr_t handler)
