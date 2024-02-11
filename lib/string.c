@@ -1,10 +1,12 @@
+#include "string.h"
 
-///static int strlen(const char*str) 
-///{
-///	int count;
-///	for(count = 0; *(str + count) != '\0'; ++count);
-///	return count;
-///}
+int strlen(const char*str) 
+{
+	int count;
+	for(count = 0; *(str + count) != '\0'; ++count);
+	return count;
+}
+
 ///
 ///static int count_c(const char* str, const char c) 
 ///{
@@ -70,3 +72,21 @@
 ///
 ///	free(current_str);
 ///}
+
+
+void append(char s[], char n)
+{
+	int len = strlen(s);
+	s[len] = n;
+	s[len + 1] = '\0';
+}
+
+
+void strcpy(char *dest, const char *source)
+{
+	for(
+		int i = 0; 
+		*(dest + i) != '\0'; 
+		i++, *(dest + i) = *(source + i)
+	);
+}
