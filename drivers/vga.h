@@ -3,5 +3,6 @@
 
 void clear_screen();
 void print_string(char *str);
+void print_backspace();
 
 #endif

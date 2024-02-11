@@ -125,4 +125,10 @@ void print_string(char *str)
     set_cursor(offset);
 }
 
+void print_backspace()
+{
+	const int new_cursor = get_cursor() - 2;
+	set_char_at_video_memory(' ', new_cursor);
+	set_cursor(new_cursor);
+}
 

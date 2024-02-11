@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "vga.h"
 #include "helper.h"
@@ -293,7 +294,20 @@ void irq_handler(registers_t *r)
 ///
 ///Each keyboard has your map
 ///
+
+bool backspace(char buff[])
+{
+	const int len = strlen(buff); 
+	if(len > 0) {
+		buff[len - 1] = '\0';
+		return true;
+	} else 
+		return false;
+}
+
 #define SC_MAX 57
+#define BACKSPACE 0x0e
+
 static char key_buff[256];
 const char scancode2char[] = {
   '?', '?', '1', '2', '3', '4', '5',
@@ -310,6 +324,10 @@ static void keyboard_callback(registers_t *regs)
 {
 	const uint8_t scancode = port_byte_in(0x60);
 	if(scancode > SC_MAX) return;
+
+	if(scancode == BACKSPACE)
+		if(backspace(key_buff)) 
+			print_backspace();
 
 	const char letter = scancode2char[(int) scancode];
 	append(key_buff, letter);
@@ -328,3 +346,4 @@ void init_keyboard()
 {
 	register_interrupt_handler(IRQ1, keyboard_callback);
 }
+
