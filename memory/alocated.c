@@ -1,6 +1,8 @@
 #include<stdint.h>
 #include<stdio.h>
 
+#include "alocated.h"
+
 #define NULL_POINT ((void*)0)
 #define DYNAMIC_MEM_TOTAL_SIZE 4*1024
 #define DYNAMIC_MEM_NODE_SIZE sizeof(dynamic_mem_node) /// 16
@@ -15,7 +17,7 @@ typedef struct dynamic_mem_node {
 static uint8_t dynamic_mem_area[DYNAMIC_MEM_TOTAL_SIZE];
 static dynamic_mem_node_t *dynamic_mem_start;
 
-void init_dynamic_mem()
+void __init_dynamic_mem()
 {
 	dynamic_mem_start = (dynamic_mem_node_t *) dynamic_mem_area;
 	dynamic_mem_start->size = DYNAMIC_MEM_TOTAL_SIZE - 16; /// this 16 is dynamic memory node size
@@ -23,7 +25,7 @@ void init_dynamic_mem()
 	dynamic_mem_start->prev = NULL_POINT;
 }
 
-void *find_best_mem_block(dynamic_mem_node_t 
+void* __find_best_mem_block(dynamic_mem_node_t 
 		*dynamic_mem, size_t size)
 {
 	dynamic_mem_node_t *best_mem_block = (dynamic_mem_node_t *) NULL_POINT;
@@ -47,7 +49,7 @@ void *find_best_mem_block(dynamic_mem_node_t
 void *k_malloc(size_t size)
 {
 	dynamic_mem_node_t *best_mem_block = 
-		(dynamic_mem_node_t *) find_best_mem_block(dynamic_mem_start, size);
+		(dynamic_mem_node_t *) __find_best_mem_block(dynamic_mem_start, size);
 
 	if(best_mem_block != NULL_POINT) {
 		best_mem_block->size = best_mem_block->size - size - 16; 
