@@ -1,3 +1,8 @@
+;;; this code is in 16 bits
+;;; but we change to 32 bits 
+;;; because this allow us write
+;;; high-level code, like C, Rust ... 
+
 [bits 16]
 switch_to_32bit:
 	cli                   ; 1. disable interrupts

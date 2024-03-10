@@ -1,5 +1,6 @@
 disk_load:
-	; send all general purpose register (ax, bx, cx, dx) to stack using pusha
+	; send all general purpose register 
+	; (ax, bx, cx, dx) to stack using pusha
 	pusha
 	push dx
 
@@ -11,7 +12,7 @@ disk_load:
 	mov dh, 0x00 ; head 0
 
 	; dl = drive number is set as input to disk_load
-	; es:bx = buffer pointer is set as input as well
+	; es:bx = buffer pointer is set as input too 
 
 	int 0x13      ; BIOS interrupt
 
@@ -19,8 +20,8 @@ disk_load:
 	jc disk_error ; check carry = 1 bit for error
 	 
 	pop dx        ; get back original number of sectors to read
-	cmp al, dh    ; BIOS sets 'al' to the # of sectors actually read
-	              ; compare ir to 'dh' and error out if they are != 
+	cmp al, dh    ; BIOS sets 'al' to the X of sectors actually read
+	              ; compare it to 'dh' and error out if they are != 
 
 	jne sectors_error
 	; if(al != dh){ sectors_error() }

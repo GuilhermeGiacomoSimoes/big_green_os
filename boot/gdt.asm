@@ -1,5 +1,16 @@
-;; gdt_start and gdt_end labels are used to compute size
+;;; db, dw, and dd are pseuco-instructions..
+;;; - false insctructions
+;;; - instructions that are ignored by micro processor
+;;; - assembler directiver
+;;; - instructions that are treated like comments
 
+;;; dw = define word. generally 2 bytes on a typical x86
+;;; db = define byte. 8 bits
+;;; dd = define double word. generally 4 bytes on a typical x86
+
+;;; db, dw and dd are used to declare initialized data in the output file
+
+;; gdt_start and gdt_end labels are used to compute size
 ; null segment descriptor
 gdt_start:
 	dq 0x0
@@ -17,7 +28,7 @@ gdt_code:
 
 ; data segment descriptor
 gdt_data:
-	dw 0xffff     ; segment length, bits 0-15
+	dw 0xffff     ; define word segment length, bits 0-15
 	dw 0x0        ; segment base, bits 0-15
 	db 0x0        ; segment base, bits 16-23 
 	db 10010010b  ; flags (8 bits)
