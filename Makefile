@@ -1,5 +1,5 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c boot/*.c lib/*.c memory/*.c client/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h boot/*.h lib/*.h memory/*.h client/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c boot/*.c memory/*.c lib/*.c client/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h boot/*.h memory/*.h lib/*.h client/*.h)
 OBJ_FILES = ${C_SOURCES:.c=.o drivers/interrupts.o}
 
 CC ?= x86_64-elf-gcc
