@@ -62,7 +62,7 @@ static int get_cursor()
     return offset * 2;
 }
 
-static void set_char_at_video_memory(
+static void __set_char_video_mem(
 		const char character, const int offset)
 {
 	unsigned char *vidmem = (unsigned char *) VIDEO_ADDRESS;
@@ -94,7 +94,7 @@ static int scroll_ln(int offset)
 		);
 
 	for(int col = 0; col < MAX_COLS; col++) 
-		set_char_at_video_memory(' ', get_offset(col, MAX_ROWS - 1));
+		__set_char_video_mem(' ', get_offset(col, MAX_ROWS - 1));
 
 	return offset - 2 * MAX_COLS;
 }
@@ -102,7 +102,7 @@ static int scroll_ln(int offset)
 void clear_screen() 
 {
 	for(int i = 0; i < MAX_COLS * MAX_ROWS; ++i)
-		set_char_at_video_memory(' ', i * 2);
+		__set_char_video_mem(' ', i * 2);
 
 	set_cursor(get_offset(0, 0));
 }
@@ -118,7 +118,7 @@ void print_string(char *str)
         if (str[i] == '\n') {
             offset = move_offset_to_new_line(offset);
         } else {
-            set_char_at_video_memory(str[i], offset);
+            __set_char_video_mem(str[i], offset);
             offset += 2;
         }
     }
@@ -128,7 +128,7 @@ void print_string(char *str)
 void print_backspace()
 {
 	const int new_cursor = get_cursor() - 2;
-	set_char_at_video_memory(' ', new_cursor);
+	__set_char_video_mem(' ', new_cursor);
 	set_cursor(new_cursor);
 }
 

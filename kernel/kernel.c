@@ -3,6 +3,7 @@
 
 void k_main (void) 
 {
+
 	clear_screen();
 	print_string("Installing interrupt service routines \n");
 	isr_install();
