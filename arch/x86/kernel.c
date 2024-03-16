@@ -1,5 +1,5 @@
-#include "../drivers/vga.h"
-#include "../drivers/keyboard.h"
+#include "io/vga.h"
+#include "io/keyboard.h"
 
 void k_main (void) 
 {

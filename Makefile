@@ -1,19 +1,33 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c boot/*.c memory/*.c lib/*.c client/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h boot/*.h memory/*.h lib/*.h client/*.h)
-OBJ_FILES = ${C_SOURCES:.c=.o drivers/interrupts.o}
+ARCH ?= $(uname -a)
+
+HEADERS = $(wildcard client/*.h lib/*.h memory/*.h include/*.h)
+
+ifeq ($(ARCH),i386)
+C_SOURCES = $(wildcard arch/x86/*.c client/*.c lib/*.c memory/*.c)
+OBJ_FILES = ${C_SOURCES:.c=.o arch/x86/io/interrupts.o}
+BOOT_DIR = arch/x86/boot/
+endif
+
+ifeq ($(ARCH),avr)
+C_SOURCES = $(wildcard arch/avr/*.c client/*.c lib/*.c memory/*.c)
+OBJ_FILES = ${C_SOURCES:.c=.o arch/avr/io/interrupts.o}
+BOOT_DIR = arch/avr/boot/
+endif
+
 
 CC ?= x86_64-elf-gcc
 LD ?= x86_64-elf-ld
 
 all: run
 
-kernel.bin: boot/kernel-entry.o ${OBJ_FILES}
+kernel.bin: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
-os-image.bin: boot/mbr.bin kernel.bin
+os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
+	@echo "$(ARCH)"
 	qemu-system-i386 -fda $<
 
 echo: os-image.bin
@@ -32,10 +46,7 @@ echo: os-image.bin
 	ndisasm -b 32 $< > $@
 
 clean:
-	$(RM) *.bin *.o *.dis *.elf
-	$(RM) kernel/*.o
-	$(RM) boot/*.o boot/*.bin
-	$(RM) drivers/*.o
-	$(RM) lib/*.o
-	$(RM) client/*.o
-	$(RM) memory/*.o
+	find . -name "*.o" -exec rm -rf {} +
+	find . -name "*.bin" -exec rm -rf {} +
+	find . -name "*.dis" -exec rm -rf {} +
+	find . -name "*.elf" -exec rm -rf {} +
