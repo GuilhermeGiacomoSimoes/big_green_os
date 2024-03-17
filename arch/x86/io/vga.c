@@ -14,9 +14,9 @@
 0x000F0000 - 0x000FFFFF - System BIOS
  */
 
-#include "vga.h"
-#include "../lib/memory.h"
-#include "helper.h"
+#include "../../../include/vga.h"
+#include "../../../lib/memory.h"
+#include "../../../include/helper.h"
 
 //This register contains a value of offset cursor
 #define VGA_OFFSET_REGISTER 0x3c4

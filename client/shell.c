@@ -1,5 +1,5 @@
 #include "../lib/string.h"
-#include "../arch/x86/io/vga.h"
+#include "../include/vga.h"
 #include "shell.h"
 
 void execute_command(char *input)

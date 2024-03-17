@@ -1,9 +1,8 @@
-#include "io/vga.h"
-#include "io/keyboard.h"
+#include "../../include/vga.h"
+#include "../../include/keyboard.h"
 
 void k_main (void) 
 {
-
 	clear_screen();
 	print_string("Installing interrupt service routines \n");
 	isr_install();
