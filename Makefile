@@ -45,6 +45,19 @@ echo: os-image.bin
 %.dis: %.bin
 	ndisasm -b 32 $< > $@
 
+help:
+	@echo " === welcome to freeOS === "
+	@echo ""
+	@echo " == COMPILATION == "
+	@echo "for compile to i386:"
+	@echo "make ARCH=i386"
+	@echo ""
+	@echo "for compile to avr:"
+	@echo "make ARCH=avr"
+	@echo ""
+	@echo " == FOR CLEAR DIRECTORIES == "
+	@echo "make clean"
+
 clean:
 	find . -name "*.o" -exec rm -rf {} +
 	find . -name "*.bin" -exec rm -rf {} +
