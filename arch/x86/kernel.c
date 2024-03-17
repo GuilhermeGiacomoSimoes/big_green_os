@@ -1,7 +1,7 @@
 #include "../../include/vga.h"
 #include "../../include/keyboard.h"
 
-void k_main (void) 
+void main (void) 
 {
 	clear_screen();
 	print_string("Installing interrupt service routines \n");
