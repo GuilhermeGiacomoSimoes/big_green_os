@@ -3,7 +3,7 @@ ARCH ?= $(uname -a)
 HEADERS = $(wildcard client/*.h lib/*.h memory/*.h include/*.h)
 
 ifeq ($(ARCH),i386)
-C_SOURCES = $(wildcard arch/x86/io/*.c client/*.c lib/*.c memory/*.c)
+C_SOURCES = $(wildcard arch/x86/*.c arch/x86/io/*.c client/*.c lib/*.c memory/*.c)
 OBJ_FILES = ${C_SOURCES:.c=.o arch/x86/io/interrupts.o}
 BOOT_DIR = arch/x86/boot/
 endif
