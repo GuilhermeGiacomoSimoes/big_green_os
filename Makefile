@@ -3,7 +3,7 @@ ARCH ?= $(uname -a)
 HEADERS = $(wildcard client/*.h lib/*.h memory/*.h include/*.h)
 
 ifeq ($(ARCH),i386)
-C_SOURCES = $(wildcard arch/x86/*.c client/*.c lib/*.c memory/*.c)
+C_SOURCES = $(wildcard arch/x86/io/*.c client/*.c lib/*.c memory/*.c)
 OBJ_FILES = ${C_SOURCES:.c=.o arch/x86/io/interrupts.o}
 BOOT_DIR = arch/x86/boot/
 endif
@@ -13,7 +13,6 @@ C_SOURCES = $(wildcard arch/avr/*.c client/*.c lib/*.c memory/*.c)
 OBJ_FILES = ${C_SOURCES:.c=.o arch/avr/io/interrupts.o}
 BOOT_DIR = arch/avr/boot/
 endif
-
 
 CC ?= x86_64-elf-gcc
 LD ?= x86_64-elf-ld
@@ -27,7 +26,7 @@ os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
-	@echo "$(ARCH)"
+	@echo "arch: $(ARCH)"
 	qemu-system-i386 -fda $<
 
 echo: os-image.bin

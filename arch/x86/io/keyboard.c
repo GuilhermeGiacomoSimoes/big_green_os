@@ -3,11 +3,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "vga.h"
-#include "helper.h"
-#include "keyboard.h"
-#include "../lib/string.h"
-#include "../client/shell.h"
+#include "../../../include/vga.h"
+#include "../../../include/helper.h"
+#include "../../../include/keyboard.h"
+#include "../../../lib/string.h"
+#include "../../../client/shell.h"
 
 extern void irq0();
 extern void irq1();
