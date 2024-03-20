@@ -51,7 +51,7 @@ debug: os-image.bin kernel.elf
 	ndisasm -b 32 $< > $@
 
 help:
-	@echo " === welcome to freeOS === "
+	@echo " === welcome to openOS === "
 	@echo ""
 	@echo " == COMPILATION == "
 	@echo "for compile to i386:"
