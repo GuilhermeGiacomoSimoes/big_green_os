@@ -19,7 +19,7 @@ LD ?= x86_64-elf-ld
 
 all: run
 
-kernel.bin: ${BOOT_DIR}/kernel_entry.o ${OBJ_FILES}
+kernel.bin: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
 os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
