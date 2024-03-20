@@ -9,7 +9,7 @@ BOOT_DIR = arch/x86/boot/
 endif
 
 ifeq ($(ARCH),avr)
-C_SOURCES = $(wildcard arch/avr/*.c client/*.c lib/*.c memory/*.c)
+C_SOURCES = $(wildcard arch/avr/*.c arch/avr/io/*.c client/*.c lib/*.c memory/*.c)
 OBJ_FILES = ${C_SOURCES:.c=.o arch/avr/io/interrupts.o}
 BOOT_DIR = arch/avr/boot/
 endif
@@ -19,21 +19,27 @@ LD ?= x86_64-elf-ld
 
 all: run
 
-kernel.bin: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
+kernel.bin: ${BOOT_DIR}/kernel_entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
 os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
-	@echo "arch: $(ARCH)"
 	qemu-system-i386 -fda $<
 
 echo: os-image.bin
 	xxd $<
 
+kernel.elf: ${BOOT_DIR}/kernel_entry.o ${OBJ_FILES}
+	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^
+
+debug: os-image.bin kernel.elf
+	qemu-system-i386 -s -S -fda os-image.bin -d guest_errors,int &
+	i386-elf-gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
+
 %.o: %.c ${HEADERS}
-	$(CC) -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@
+	$(CC) -g -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@ 
 
 %.o: %.asm
 	nasm $< -f elf -o $@
