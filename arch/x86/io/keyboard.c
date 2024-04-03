@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "interrupts.h"
+#include "../../../include/interrupts.h"
 #include "../../../include/vga.h"
 #include "../../../include/helper.h"
 #include "../../../include/keyboard.h"
@@ -43,7 +43,7 @@ const char scancode2char[] = {
   'N', 'M', ',', '.', '/', '?', '?',
   '?', ' '
 };
-static void keyboard_callback(struct registers_t *regs) 
+static void keyboard_callback() 
 {
 	const uint8_t scancode = port_byte_in(READ_DATA_PORT);
 	if(scancode > SC_MAX) return;

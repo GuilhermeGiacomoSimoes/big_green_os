@@ -2,7 +2,7 @@
 
 #include "../../../include/helper.h"
 #include "../../../include/vga.h"
-#include "interrupts.h"
+#include "../../../include/interrupts.h"
 
 extern void irq0();
 extern void irq1();
@@ -242,6 +242,20 @@ void isr_install()
 	__load_idt(); 
 }
 
+struct registers_t {
+	///data segment selector
+	uint32_t ds;
+
+	///general purpose registers pushed by pusha
+	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+
+	///pushed by isr procedure
+	uint32_t int_no, err_code;
+
+	///pushed by CPU automatically
+	uint32_t eip, cs, eflags, useresp, ss;
+};
+
 typedef void (*isr_t)(struct registers_t *);
 isr_t interrupt_handlers[256];
 
@@ -266,9 +280,9 @@ void irq_handler(struct registers_t *r)
 	port_byte_out(0x20, 0x20); // primary EOI
 }
 
-void register_interrupt_handler(uint8_t n, isr_t handler)
+void register_interrupt_handler(uint8_t n, void (*handler)(void *))
 {
-	interrupt_handlers[n] = handler;
+	interrupt_handlers[n] = (isr_t) handler;
 }
 
 void isr_handler(struct registers_t *r)
