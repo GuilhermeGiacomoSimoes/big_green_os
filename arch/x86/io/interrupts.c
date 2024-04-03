@@ -238,7 +238,7 @@ void isr_install()
 	__load_isr();
 	__remap_the_pic();
 	__load_irq();
-    __load_idt(); 
+	__load_idt(); 
 }
 
 struct registers_t {
