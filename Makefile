@@ -1,6 +1,6 @@
 ARCH ?= $(uname -a)
 
-HEADERS = $(wildcard client/*.h lib/*.h memory/*.h include/*.h)
+HEADERS = $(wildcard arch/x86/io/interrupts.h client/*.h lib/*.h memory/*.h include/*.h)
 
 ifeq ($(ARCH),i386)
 C_SOURCES = $(wildcard arch/x86/*.c arch/x86/io/*.c client/*.c lib/*.c memory/*.c)

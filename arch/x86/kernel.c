@@ -1,4 +1,5 @@
 #include "../../include/vga.h"
+#include "../../arch/x86/io/interrupts.h" 
 #include "../../include/keyboard.h"
 
 void main (void) 
