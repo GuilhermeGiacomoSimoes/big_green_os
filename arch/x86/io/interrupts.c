@@ -241,8 +241,15 @@ void isr_install()
     __load_idt(); 
 }
 
+struct registers_t {
+	uint32_t ds, edi, esi, ebp, esp, ebx, 
+			 edx, ecx, eax, int_no, err_code, 
+			 eip, cs, eflags, useresp, ss; 
+};
+
 typedef void (*isr_t)(struct registers_t *);
 isr_t interrupt_handlers[256];
+
 void irq_handler(struct registers_t *r)
 {
 	if(interrupt_handlers[r->int_no] != 0) {
