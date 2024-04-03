@@ -2,6 +2,7 @@
 
 #include "../../../include/helper.h"
 #include "../../../include/vga.h"
+#include "interrupts.h"
 
 extern void irq0();
 extern void irq1();
@@ -240,12 +241,6 @@ void isr_install()
 	__load_irq();
 	__load_idt(); 
 }
-
-struct registers_t {
-	uint32_t ds, edi, esi, ebp, esp, ebx, 
-			 edx, ecx, eax, int_no, err_code, 
-			 eip, cs, eflags, useresp, ss; 
-};
 
 typedef void (*isr_t)(struct registers_t *);
 isr_t interrupt_handlers[256];
