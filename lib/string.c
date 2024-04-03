@@ -82,7 +82,7 @@ void append(char s[], char n)
 }
 
 
-void strcpy(char *dest, const char *source)
+void k_strcpy(char *dest, const char *source)
 {
 	for(
 		int i = 0; 
@@ -100,3 +100,4 @@ int strcmp(char s1[], char s2[])
 
 	return s1[i] - s2[i];
 }
+
