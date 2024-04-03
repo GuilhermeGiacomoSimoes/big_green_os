@@ -343,25 +343,22 @@ const char scancode2char[] = {
 };
 static void keyboard_callback(registers_t *regs) 
 {
-	uint8_t scanmode = port_byte_in(0x60);
-	///print_string(scanmode);
+	const uint8_t scancode = port_byte_in(READ_DATA_PORT);
+	if(scancode > SC_MAX) return;
 
-	///const uint8_t scancode = port_byte_in(0x60);
-	///if(scancode > SC_MAX) return;
-
-	///if(scancode == BACKSPACE) {
-	///	if(backspace(key_buff)) 
-	///		print_backspace();
-	///} else if (scancode == ENTER) {
-	///	///print_nl();
-	///	execute_command(key_buff);
-	///	key_buff[0] = '\0';
-	///} else {
-	///	char letter = scancode2char[(int) scancode];
-	///	append(key_buff, letter);
-	///	char str[2] = {letter, '\0'};
-	///	print_string(str);
-	///}
+	if(scancode == BACKSPACE) {
+		if(backspace(key_buff)) 
+			print_backspace();
+	} else if (scancode == ENTER) {
+		///print_nl();
+		execute_command(key_buff);
+		key_buff[0] = '\0';
+	} else {
+		char letter = scancode2char[(int) scancode];
+		append(key_buff, letter);
+		char str[2] = {letter, '\0'};
+		print_string(str);
+	}
 }
 
 void register_interrupt_handler(uint8_t n, isr_t handler)
