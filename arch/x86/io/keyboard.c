@@ -63,6 +63,9 @@ extern void isr31();
 #define high_16(address) (uint16_t) \
 	(((address) >> 16) & 0xFFFF)
 
+#define SEND_DATA_PORT 0x64
+#define READ_DATA_PORT 0x60
+
 typedef struct {
 	uint16_t limit;
 	uint32_t base;
@@ -416,5 +419,11 @@ void register_interrupt_handler(uint8_t n, isr_t handler)
 void init_keyboard()
 {
 	register_interrupt_handler(IRQ1, keyboard_callback);
+}
+
+void __reset()
+{
+	const uint8_t reset = 0xff;
+	port_byte_out(SEND_DATA_PORT, reset);
 }
 
