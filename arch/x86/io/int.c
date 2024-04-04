@@ -239,8 +239,8 @@ static void __remap_the_pic(void)
 
 void isr_install()
 {
-	__load_isr();
 	__remap_the_pic();
+	__load_isr();
 	__load_irq();
 	__load_idt(); 
 }
