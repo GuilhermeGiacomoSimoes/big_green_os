@@ -245,7 +245,7 @@ void isr_install()
 	__load_idt(); 
 }
 
-struct registers_t {
+typedef struct {
 	///data segment selector
 	uint32_t ds;
 
@@ -257,12 +257,12 @@ struct registers_t {
 
 	///pushed by CPU automatically
 	uint32_t eip, cs, eflags, useresp, ss;
-};
+} __attribute__((packed)) registers_t;
 
-typedef void (*isr_t)(struct registers_t *);
+typedef void (*isr_t)(registers_t *);
 isr_t interrupt_handlers[256];
 
-void irq_handler(struct registers_t *r)
+void irq_handler(registers_t *r)
 {
 	if(interrupt_handlers[r->int_no] != 0) {
 		isr_t handler = interrupt_handlers[r->int_no];
@@ -288,7 +288,7 @@ void register_interrupt_handler(uint8_t n, void (*handler)(void *))
 	interrupt_handlers[n] = (isr_t) handler;
 }
 
-void isr_handler(struct registers_t *r)
+void isr_handler(registers_t *r)
 {
     print_string("received interrupt: ");
     char s[3];
