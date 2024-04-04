@@ -249,7 +249,7 @@ struct registers_t {
 	///general purpose registers pushed by pusha
 	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
 
-	///pushed by isr procedure
+	///pushed by isr/irq procedure
 	uint32_t int_no, err_code;
 
 	///pushed by CPU automatically

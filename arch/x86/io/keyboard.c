@@ -74,4 +74,3 @@ void __reset()
 	const uint8_t reset = 0xff;
 	port_byte_out(SEND_DATA_PORT, reset);
 }
-
