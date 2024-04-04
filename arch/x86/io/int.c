@@ -72,15 +72,18 @@ typedef struct {
 	uint8_t flags;
 	uint16_t high_offset;
 } __attribute__((packed)) idt_gate_t;
-idt_gate_t idt[256];
 
+idt_gate_t idt[256];
 idt_register_t idt_reg;
 static void __load_idt() 
 {
 	idt_reg.base = (uint32_t) &idt;
+
 	const int idt_entries = 256;
 	const int size_idt_gate = sizeof(idt_gate_t);
-	idt_reg.limit = idt_entries * size_idt_gate - 1;
+	const int size_all_gates = size_idt_gate * idt_entries;
+
+	idt_reg.limit = idt_reg.base + size_all_gates;
 	asm volatile("lidt (%0)" : : "r" (&idt_reg));
 }
 
