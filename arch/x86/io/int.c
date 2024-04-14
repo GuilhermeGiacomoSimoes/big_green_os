@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 
 #include "../../../include/helper.h"
 #include "../../../include/vga.h"
@@ -62,7 +63,7 @@ extern void isr31();
 
 typedef struct {
 	uint16_t limit;
-	uint32_t base;
+	uint16_t base;
 } __attribute__((packed)) idt_register_t;
 
 typedef struct {
@@ -77,14 +78,14 @@ idt_gate_t idt[256];
 idt_register_t idt_reg;
 static void __load_idt() 
 {
-	idt_reg.base = (uint32_t) &idt;
+	idt_reg.base = (uint16_t) &idt;
 
 	const int idt_entries = 256;
 	const int size_idt_gate = sizeof(idt_gate_t);
-	const int size_all_gates = size_idt_gate * idt_entries;
+	const int size_all_gates = idt_entries * size_idt_gate;
+	idt_reg.limit = size_all_gates - 1;
 
-	idt_reg.limit = idt_reg.base + size_all_gates;
-	asm volatile("lidt (%0)" : : "r" (&idt_reg));
+	asm volatile("lidt (%0)" : : "m" (idt_reg));
 }
 
 static void __set_idt_gate(int n, uint32_t handler)
