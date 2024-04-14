@@ -9,9 +9,6 @@ void main (void)
 	print_string("Installing interrupt service routines \n");
 	isr_install();
 
-	print_string("Enabling external interrupts. \n");
-	asm volatile("sti");
-
 	print_string("Initializing keyboard \n");
 	init_keyboard();
 
