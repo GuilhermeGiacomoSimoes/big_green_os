@@ -181,7 +181,7 @@ static void __load_isr(void)
 static void __load_irq(void)
 {
 	__set_idt_gate(32, (uint32_t) irq0);
-	__set_idt_gate(33, (uint32_t) irq1);
+	__set_idt_gate(33, (uint32_t) irq1); ///keyboard ps-2
 	__set_idt_gate(34, (uint32_t) irq2);
 	__set_idt_gate(35, (uint32_t) irq3);
 	__set_idt_gate(36, (uint32_t) irq4);
