@@ -2,49 +2,61 @@
 [extern irq_handler]
 
 isr_common_stub:
-	pusha
-	mov ax, ds
+	; save the registers for
+	; return your values after
+	; execute isr_handler
 	push eax
-	mov ax, 0x10
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
-
+	push ebx
+	push ecx
+	push edx
+	push esi
+	push edi
 	push esp
-	call isr_handler
-	pop eax
+	push ebp
 
+	call isr_handler
+
+	; return values of registers 
 	pop eax
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
-	popa
+	pop ebx
+	pop ecx
+	pop edx
+	pop esi
+	pop edi
+	pop esp
+	pop ebp
+
 	add esp, 8
+
 	iret
 
 irq_common_stub:
-	pusha
-	mov ax, ds
+	; save the registers for
+	; return your values after
+	; execute isr_handler
 	push eax
-	mov ax, 0x10
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
-
+	push ebx
+	push ecx
+	push edx
+	push esi
+	push edi
 	push esp
-	call irq_handler
-	pop ebx
+	push ebp
 
+	call irq_handler 
+
+	; return values of registers 
+	pop eax
 	pop ebx
-	mov ds, bx
-	mov es, bx
-	mov fs, bx
-	mov gs, bx
-	popa
+	pop ecx
+	pop edx
+	pop esi
+	pop edi
+	pop esp
+	pop ebp
+
 	add esp, 8
+
 	iret
 
 
