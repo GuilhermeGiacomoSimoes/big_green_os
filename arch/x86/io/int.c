@@ -237,12 +237,18 @@ static void __remap_the_pic(void)
 	port_byte_out(0xA1, 0x0);
 }
 
+void __enable_external_interrupts(void)
+{
+	asm volatile("sti");
+}
+
 void isr_install()
 {
 	__remap_the_pic();
 	__load_isr();
 	__load_irq();
 	__load_idt(); 
+	__enable_external_interrupts();
 }
 
 typedef struct {
