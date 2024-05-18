@@ -26,17 +26,17 @@ os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
-	sudo qemu-system-i386 -m 4G -smp 16 -fda $<
+	@echo "os-image.bin is redy"
+	qemu-system-i386 -m 4G -smp 16 -fda $<
 
 echo: os-image.bin
 	xxd $<
 
-kernel.elf: ${BOOT_DIR}/kernel_entry.o ${OBJ_FILES}
+kernel.elf: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^
 
 debug: os-image.bin kernel.elf
-	qemu-system-i386 -s -S -fda os-image.bin -d guest_errors,int &
-	i386-elf-gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
+	qemu-system-i386 -s -S -fda os-image.bin -m 4G
 
 %.o: %.c ${HEADERS}
 	$(CC) -g -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@ 
