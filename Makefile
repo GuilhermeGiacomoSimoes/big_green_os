@@ -26,7 +26,7 @@ os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
-	qemu-system-i386 -fda $<
+	sudo qemu-system-i386 -m 4G -smp 16 -fda $<
 
 echo: os-image.bin
 	xxd $<
