@@ -2,13 +2,13 @@ arch ?= i386
 
 HEADERS = $(wildcard arch/x86/io/interrupts.h client/*.h lib/*.h memory/*.h include/*.h)
 
-ifeq ($(ARCH),i386)
+ifeq ($(arch),i386)
 C_SOURCES = $(wildcard arch/x86/*.c arch/x86/io/*.c client/*.c lib/*.c memory/*.c)
 OBJ_FILES = ${C_SOURCES:.c=.o arch/x86/io/interrupts.o}
 BOOT_DIR = arch/x86/boot/
 endif
 
-ifeq ($(ARCH),avr)
+ifeq ($(arch),avr)
 C_SOURCES = $(wildcard arch/avr/*.c arch/avr/io/*.c client/*.c lib/*.c memory/*.c)
 OBJ_FILES = ${C_SOURCES:.c=.o arch/avr/io/interrupts.o}
 BOOT_DIR = arch/avr/boot/
