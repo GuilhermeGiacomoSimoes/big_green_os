@@ -1,4 +1,4 @@
-ARCH ?= $(uname -a)
+arch ?= i386 
 
 HEADERS = $(wildcard arch/x86/io/interrupts.h client/*.h lib/*.h memory/*.h include/*.h)
 
