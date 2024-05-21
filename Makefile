@@ -26,17 +26,8 @@ os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin
-	@echo "os-image.bin is redy"
-	qemu-system-i386 -m 4G -smp 16 -fda $<
-
-echo: os-image.bin
-	xxd $<
-
-kernel.elf: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
-	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^
-
-debug: os-image.bin kernel.elf
-	qemu-system-i386 -s -S -fda os-image.bin -m 4G
+	@echo "kernel.bin is ready"
+	@echo "os-image.bin is ready"
 
 %.o: %.c ${HEADERS}
 	$(CC) -g -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@ 
@@ -55,10 +46,10 @@ help:
 	@echo ""
 	@echo " == COMPILATION == "
 	@echo "for compile to i386:"
-	@echo "make ARCH=i386"
+	@echo "make arch=i386"
 	@echo ""
 	@echo "for compile to avr:"
-	@echo "make ARCH=avr"
+	@echo "make arch=avr"
 	@echo ""
 	@echo " == FOR CLEAR DIRECTORIES == "
 	@echo "make clean"
