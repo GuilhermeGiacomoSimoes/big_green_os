@@ -20,8 +20,6 @@ mov sp, bp
 call load_kernel
 call switch_to_32bit
 
-jmp $
-
 %include "arch/x86/boot/disk.asm"
 %include "arch/x86/boot/gdt.asm"
 %include "arch/x86/boot/switch-to-32bit.asm"
@@ -36,11 +34,10 @@ load_kernel:
 
 [bits 32]
 BEGIN_32BIT:
-	call KERNEL_OFFSET ; give control to the kernel
-	jmp $ ; loop in case kernel returns
+	jmp KERNEL_OFFSET ; give control to the kernel
 
 BOOT_DRIVE db 0
 
+;;; padding
 times 510 - ($-$$) db 0
-
 dw 0xaa55
