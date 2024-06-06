@@ -19,14 +19,17 @@ LD ?= x86_64-elf-ld
 
 all: run
 
+kerneldb: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
+	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^
+
 kernel.bin: ${BOOT_DIR}/kernel-entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
 os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
-run: os-image.bin
-	@echo "kernel.bin is ready"
+run: os-image.bin kerneldb
+	@echo "kerneldb is ready"
 	@echo "os-image.bin is ready"
 
 %.o: %.c ${HEADERS}
