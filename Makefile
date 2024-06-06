@@ -45,7 +45,7 @@ run: os-image.bin kerneldb
 	ndisasm -b 32 $< > $@
 
 help:
-	@echo " === welcome to openOS === "
+	@echo " === welcome to bigGreen OS === "
 	@echo ""
 	@echo " == COMPILATION == "
 	@echo "for compile to i386:"
