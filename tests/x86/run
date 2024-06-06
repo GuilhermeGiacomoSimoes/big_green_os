@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+if (@ARGV > 1) {
+	if ($ARGV[0] eq 'help') {
+		help();
+	}
+
+	elsif ($ARGV[0] eq 'debug') {
+		dbg();
+	}
+}
+else {
+	run();
+}
+
+sub help {
+	print qq~ 
+[ help with tests ]
+see readme
+	~;	
+}
+
+sub run {
+	system("make clean");
+	system("make arch=i386");
+
+	if (-e "os-image.bin" && -e "kerneldb")  {
+		system("qemu-system-i386 --fda os-image.bin -d guest_errors,int");
+	}
+}
+
+sub dbg {
+	system("make clean");
+	system("make arch=i386");
+
+	if (-e "os-image.bin" && -e "kerneldb")  {
+		system("qemu-system-i386 -s -S -fda os-image.bin -d guest_errors,int");
+		system("gdb -ex \"target remote localhost:1234\" -ex \"symbol-file kerneldb\"");
+	}
+}
