@@ -28,7 +28,7 @@ kernel.o: kernel.c
 	$(CC) -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@ 
 
 create_dirs:
-	@echo "Criando diretorios para bootloader fake"
+	@echo "Creating directories for fake bootloader"
 	mkdir -p arch/x86/boot
 	cp -rv ../../../arch/x86/boot/* arch/x86/boot/
 
