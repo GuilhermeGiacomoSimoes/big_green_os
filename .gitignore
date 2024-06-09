@@ -3,3 +3,5 @@
 *.dis
 *.ccls-cache/
 kerneldb
+fake_kernel
+bootloader
