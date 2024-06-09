@@ -62,3 +62,4 @@ clean:
 	find . -name "*.bin" -exec rm -rf {} +
 	find . -name "*.dis" -exec rm -rf {} +
 	find . -name "*.elf" -exec rm -rf {} +
+	rm kerneldb
