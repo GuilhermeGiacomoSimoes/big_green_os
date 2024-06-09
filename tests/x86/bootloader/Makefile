@@ -12,7 +12,7 @@ run: create_dirs bootloader
 	@echo "you can run the follow command to view in qemu: "
 	@echo "qemu-system-i386 -hda bootloader -m 4G"
 
-bootloader: fake_kernel ${BOOT_DIR}/mbr.bin 
+bootloader: ${BOOT_DIR}/mbr.bin fake_kernel
 	cat $^ > $@
 
 fake_kernel: ${BOOT_DIR}/kernel-entry.o kernel.o
