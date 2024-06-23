@@ -42,9 +42,6 @@ run: os-image.bin kerneldb
 %.bin: %.asm
 	nasm $< -f bin -o $@
 
-%.dis: %.bin
-	ndisasm -b 32 $< > $@
-
 help:
 	@echo " === welcome to bigGreen OS === "
 	@echo ""
@@ -61,6 +58,5 @@ help:
 clean:
 	find . -name "*.o" -exec rm -rf {} +
 	find . -name "*.bin" -exec rm -rf {} +
-	find . -name "*.dis" -exec rm -rf {} +
 	find . -name "*.elf" -exec rm -rf {} +
 	rm kerneldb
