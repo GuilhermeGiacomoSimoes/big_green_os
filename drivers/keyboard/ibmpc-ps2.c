@@ -1,15 +1,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "../../../include/interrupts.h"
-#include "../../../include/vga.h"
-#include "../../../include/helper.h"
-#include "../../../include/keyboard.h"
-#include "../../../lib/string.h"
-#include "../../../client/shell.h"
+#include "keyboard_ports.h"
 
-#define SEND_DATA_PORT 0x64
-#define READ_DATA_PORT 0x60
+#include "../../include/vga.h"
+#include "../../include/helper.h"
+#include "../../lib/string.h"
+#include "../../client/shell.h"
+
+#define SC_MAX 57
+#define BACKSPACE 0x0e
+#define ENTER 0x1c
 
 bool backspace(char buff[])
 {
@@ -20,10 +21,6 @@ bool backspace(char buff[])
 	} else 
 		return false;
 }
-
-#define SC_MAX 57
-#define BACKSPACE 0x0e
-#define ENTER 0x1c
 
 static char key_buff[256];
 
@@ -43,16 +40,15 @@ const char scancode2char[] = {
   'N', 'M', ',', '.', '/', '?', '?',
   '?', ' '
 };
-static void keyboard_callback() 
+void kb_callback_ibmpcps2() 
 {
-	const uint8_t scancode = port_byte_in(READ_DATA_PORT);
+	const uint8_t scancode = port_byte_in(read_data_port());
 	if(scancode > SC_MAX) return;
 
 	if(scancode == BACKSPACE) {
 		if(backspace(key_buff)) 
 			print_backspace();
 	} else if (scancode == ENTER) {
-		///print_nl();
 		execute_command(key_buff);
 		key_buff[0] = '\0';
 	} else {
@@ -63,14 +59,3 @@ static void keyboard_callback()
 	}
 }
 
-void init_keyboard()
-{
-	const uint8_t irq = 33;
-	register_interrupt_handler(irq, keyboard_callback);
-}
-
-void __reset()
-{
-	const uint8_t reset = 0xff;
-	port_byte_out(SEND_DATA_PORT, reset);
-}

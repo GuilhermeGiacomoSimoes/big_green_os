@@ -2,5 +2,6 @@
 #define __KEYBOARD_H__
 
 void init_keyboard();
+void reset();
 
 #endif

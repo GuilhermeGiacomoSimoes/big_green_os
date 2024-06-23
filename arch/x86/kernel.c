@@ -1,6 +1,6 @@
 #include "../../include/vga.h"
 #include "../../include/interrupts.h" 
-#include "../../include/keyboard.h"
+#include "../../drivers/keyboard/keyboard.h"
 
 void main (void) 
 {
