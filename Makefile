@@ -29,6 +29,7 @@ os-image.bin: ${BOOT_DIR}/mbr.bin kernel.bin
 	cat $^ > $@
 
 run: os-image.bin kerneldb
+	@echo ""
 	@echo "kerneldb is ready"
 	@echo "os-image.bin is ready"
 
